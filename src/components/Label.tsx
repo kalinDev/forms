@@ -8,7 +8,9 @@ interface LabelProps extends LabelHTMLAttributes<HTMLInputElement> {
 
 export function LabelForm(props: LabelProps) {
   return (
-    <div className='flex flex-col py-2 text-gray-200' >
+    <div
+      className='flex flex-col py-2 text-yellow-500'
+    >
 
       <Label.Root htmlFor={props.label}>
         {props.label}
