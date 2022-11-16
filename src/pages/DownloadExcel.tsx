@@ -1,6 +1,5 @@
 import { useState, FormEvent } from 'react';
 
-import { LabelForm } from '../components/Label';
 import { InputText } from '../components/InputText';
 import { Button } from '../components/Button';
 
@@ -47,7 +46,7 @@ export function DownloadExcel() {
   }
 
   return (
-    <div className='bg-black min-h-screen mx-auto flex flex-col justify-center items-center'>
+    <div className='bg-slate-50 min-h-screen mx-auto flex flex-col justify-center items-center'>
 
       <h1 className='text-bluePurple-500 text-4xl font-bold'>ENTREVISTA CLÍNICA</h1>
       <h1 className='text-bluePurple-500 text-4xl font-bold'>ESTRUTURADA</h1>

@@ -14,13 +14,13 @@ export function InputText(props: InputProps) {
       }
       <input
         {...props}
-        className='bg-zinc-800 py-3 px-4 rounded text-sm
-        border-zinc-900 text-gray-300
-        placeholder:text-zinc-500 
-        hover:border-bluePurple-700 
-        focus:text-gray-100
-        focus:border-bluePurple-700  focus:outline-none 
-        focus:ring-2 focus:ring-bluePurple-500 focus:ring-opacity-50 border'
+        className='bg-slate-50 py-3 px-4 rounded text-sm
+        border-slate-500 text-gray-600
+        placeholder:text-gray-600 
+        hover:border-x-gray-900
+        focus:text-gray-900
+        focus:border-gray-50  focus:outline-none 
+        focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 border'
 
         value={props.name}
         onChange={props.onChange}
