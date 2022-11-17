@@ -40,7 +40,6 @@ export function DownloadExcel() {
 
       alert('Excel baixado com sucesso!');
     } catch (error) {
-      console.log(error);
       alert('Erro ao baixar excel!');
     }
   }

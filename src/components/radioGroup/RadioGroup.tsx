@@ -2,7 +2,7 @@ import * as RadioGroup from '@radix-ui/react-radio-group';
 import './styles.css';
 import { LabelForm } from '../Label';
 import { InputText } from "../InputText"
-import { useState, useEffect, InputHTMLAttributes } from 'react';
+import { useState, useEffect, InputHTMLAttributes, useRef } from 'react';
 
 interface RadioProps extends InputHTMLAttributes<HTMLInputElement> {
     values: string[];
@@ -16,8 +16,9 @@ export function RadioGroupDemo(props: RadioProps) {
 
     const [radioValue, setRadioValue] = useState<string>("");
     const [description, setdescription] = useState<string>("");
-
-    useEffect(() => sendAnswer(radioValue, description), [radioValue, description]);
+ 
+    let firstTime = useRef(true)
+    useEffect(() => { firstTime.current ? firstTime.current = false : sendAnswer(radioValue, description)}, [radioValue, description]);
 
     function sendAnswer(radioValue:string, description:string){
         props.onAnswer(
@@ -54,7 +55,9 @@ export function RadioGroupDemo(props: RadioProps) {
                 </div>
             </RadioGroup.Root>
 
-            {props.showDescription && Number(radioValue) > 0 ? <InputText placeholder='Descreva por favor' value={description} onChange={(e) => setdescription(e.target.value)} /> : ""}
+            {props.showDescription && Number(radioValue) > 0 
+            ? <InputText placeholder='Descreva por favor' value={description} onChange={(e) => setdescription(e.target.value)} /> 
+            : ""}
         </div>
     )
 };
