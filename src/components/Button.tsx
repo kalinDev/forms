@@ -1,14 +1,20 @@
-interface ButtonProps {
+import { ButtonHTMLAttributes } from "react";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   value: string;
 }
 
-export function Button(props: ButtonProps) {
+export function Button({ value }: ButtonProps) {
   return (
     <button
       type='submit'
-      className='bg-bluePurple-500 px-10 h-12 rounded-md font-semibold flex justify-center items-center gap-3 hover:bg-bluePurple-700 mt-5 text-gray-200'
+      className='px-10 h-12 mt-5 rounded-md font-semibold
+      flex justify-center items-center
+      text-gray-100
+      bg-cyan-600 hover:bg-cyan-700 
+      transition-colors duration-300'
     >
-      {props.value}
+      {value.toUpperCase()}
     </button>
   );
 };

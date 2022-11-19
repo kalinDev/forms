@@ -8,12 +8,6 @@ module.exports = {
       sans: ["Inter", "sans-serif"],
     },
     extend: {
-      colors: {
-        bluePurple: {
-          500: '#6979F8',
-          700: '#4357F3',
-        },
-      },
     },
   },
   plugins: [],
