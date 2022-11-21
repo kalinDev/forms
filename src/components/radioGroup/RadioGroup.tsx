@@ -20,10 +20,11 @@ export function RadioGroupDemo(props: RadioProps) {
     useEffect(() => { sendAnswer(radioValue, description) }, [radioValue, description]);
 
     function sendAnswer(radioValue: string, description: string) {
+        console.log(radioValue)
         props.onAnswer(
             {
-                value: radioValue || null,
-                description: description || null,
+                primaryValue: radioValue || null,
+                secondaryValue: description || null,
                 questionId: props.questionId
             })
     }
@@ -53,7 +54,7 @@ export function RadioGroupDemo(props: RadioProps) {
     })
 
     return (
-        <div className='mt-4 bg-white rounded-md border-2 pl-8 pr-80 py-6 mb-5'>
+        <div className='mt-4 bg-white rounded-md border-2 pl-8 py-6 mb-5'>
             <LabelForm label={props.label} />
             <RadioGroup.Root className="flex flex-col gap gap-2.5 mt-3" defaultValue="default" aria-label="View density">
                 <div className='flex flex-col gap gap-2 '>

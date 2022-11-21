@@ -4,6 +4,7 @@ import { Home } from './pages/Home';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { DownloadExcel } from './pages/DownloadExcel';
+import { Acknowledgment } from './pages/Acknowledgment';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/baixar-excel' element={<DownloadExcel />} />
+          <Route path='agradecimentos' element={<Acknowledgment/>} />
         </Routes>
       </Router>
     </div >

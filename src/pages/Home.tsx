@@ -3,12 +3,14 @@ import { Button } from '../components/Button';
 import { InputText } from '../components/InputText';
 import { RadioGroupDemo } from '../components/radioGroup/RadioGroup';
 import { useFetch } from '../hooks/useFetch';
+import { useRegister } from '../hooks/useRegister';
+import { useNavigate  } from "react-router-dom";
 
 
 interface Answer {
   questionId: string;
-  value: string;
-  description: string
+  primaryValue: string;
+  secondaryValue: string
 }
 
 
@@ -23,6 +25,9 @@ export function Home() {
   const [currentSection, setCurrentSection] = useState<number>(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [actualStep, setActualStep] = useState<any>();
+
+
+  const navigate = useNavigate();
 
   useEffect(() => {
   }, [currentSection, actualStep]);
@@ -78,20 +83,32 @@ export function Home() {
   }
 
 
-  function passSectionOrStep(event: FormEvent) {
+  async function passSectionOrStep(event: FormEvent) {
     event.preventDefault();
 
-    if (answers.findIndex(ans => [null, "", []].includes(ans.value)) >= 0) return // se estiver faltando questão sem resposta
+
+    //Valida se todas as questoes foram respondidas, incluindo o campo secundario se houver
+    if(sections){
+      if (answers.findIndex(ans => [null, "", []].includes(ans.primaryValue)) >= 0) return // se estiver faltando questão sem resposta
+
+      let questionsWithSecondaryValue = sections[currentSection].questions.filter((question: any) => [2,3].includes(question.type)).map((question: any) => ({id: question.id, firstRadioValue: question.radios[0].value}))
+      if (questionsWithSecondaryValue.findIndex((q:any) => answers.findIndex(ans => (ans.questionId == q.id && ans.primaryValue != q.firstRadioValue && !ans.secondaryValue))>= 0) >= 0) return
+    }
 
     let lastQuestion = currentStep[currentStep.length - 1];
     let indexRadioFilterSkipAll = lastQuestion.radios.findIndex((radio: any) => radio.action == 0)
     let isQuestionFilter = indexRadioFilterSkipAll >= 0
 
 
-    let isToSkipSection = isQuestionFilter ? answers.find(ans => ans.questionId == lastQuestion.id)?.value == lastQuestion.radios[indexRadioFilterSkipAll].value : false
+    let isToSkipSection = isQuestionFilter ? answers.find(ans => ans.questionId == lastQuestion.id)?.primaryValue == lastQuestion.radios[indexRadioFilterSkipAll].value : false
 
     if(lastSection){
-      //enviar para o backend
+      await useRegister('/form', {
+        enrollment: "123123",
+        email: "teste@gmail.com",
+        answers})
+
+        navigate("/agradecimentos");
     }
 
 
@@ -102,6 +119,7 @@ export function Home() {
     else if (!isToSkipSection) {
       setActualStep(nextStep)
     }
+    window.scrollTo({top: 0,  behavior: 'smooth' })
   }
 
   return (
@@ -114,7 +132,7 @@ export function Home() {
           {generateQuestions()}
 
           <div className='flex flex-col items-end'>
-            <Button value={lastSection ? 'Finalizar' : 'Continuar'} />
+            {sections ? <Button value={lastSection ? 'Finalizar' : 'Continuar'} /> : "" }
           </div>
         </form>
       </div>
