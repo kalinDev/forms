@@ -47,8 +47,8 @@ export function DownloadExcel() {
   return (
     <div className='bg-slate-50 min-h-screen mx-auto flex flex-col justify-center items-center'>
 
-      <h1 className='text-bluePurple-500 text-4xl font-bold'>ENTREVISTA CLÍNICA</h1>
-      <h1 className='text-bluePurple-500 text-4xl font-bold'>ESTRUTURADA</h1>
+      <h1 className='text-bluePurple-500 text-4xl text-center font-bold'>ENTREVISTA CLÍNICA</h1>
+      <h1 className='text-bluePurple-500 text-4xl text-center font-bold'>ESTRUTURADA</h1>
 
       <form onSubmit={handleForm} className='flex flex-col'>
         <InputText

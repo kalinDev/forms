@@ -1,16 +1,17 @@
 import { useEffect, useState, FormEvent } from 'react';
 import { Button } from '../components/Button';
-import { InputText } from '../components/InputText';
 import { RadioGroupDemo } from '../components/radioGroup/RadioGroup';
 import { useFetch } from '../hooks/useFetch';
 import { useRegister } from '../hooks/useRegister';
 import { useNavigate  } from "react-router-dom";
-
+import toast from 'react-hot-toast';
+import { TextField } from '../components/TextField';
 
 interface Answer {
   questionId: string;
   primaryValue: string;
-  secondaryValue: string
+  secondaryValue: string;
+  radioIndex: string;
 }
 
 
@@ -37,16 +38,30 @@ export function Home() {
   
   let lastSection = false
 
-  if (!nextStep && (sections && sections[sections.length-1].name == sections[currentSection].name)) lastSection = true;
 
   splitQuestions()
   function splitQuestions() {
 
     if (!sections) return;
 
-    let questions = actualStep?.length > 0 ? actualStep : sections[currentSection].questions
+    if(actualStep?.find((q:any) => q.id == 58)){
+      if (answers.findIndex(ans => [57,56,55].includes(Number(ans.questionId)) && ans.primaryValue =="1") < 0){
+        actualStep.shift();
+      }
+      
+    }
 
-    let questionFiltred = questions.find((question: any) => question.radios.some((radio: any) => radio.action == 0))
+    let questions = actualStep?.length > 0 ? actualStep : [] 
+    if( questions.length == 0 ){
+      if (sections[currentSection].name == "PÂNICO"){
+        if (answers.findIndex(ans => ["75", "69"].includes(ans.questionId)) > 0){
+          setCurrentSection(currentSection + 1)
+        }
+      }
+      questions = sections[currentSection].questions
+    }
+
+    let questionFiltred = questions.find((question: any) => question.radios.some((radio: any) => radio.action != null))
 
     let indexFilterQuestion = 100000;
     if (questionFiltred) {
@@ -55,6 +70,7 @@ export function Home() {
 
     currentStep = questions.filter((question: any) => question.id <= indexFilterQuestion) //carrega todas as questoes até a pergunta filtro (ele é incluida)
     nextStep = currentStep.length != questions.length ? questions.slice(currentStep.length, questions.length) : [] // carrega todas as questoes após a primeira questão filtro
+    if (nextStep.length == 0 && (sections && sections[sections.length-1].name == sections[currentSection].name)) lastSection = true;
 
   }
 
@@ -63,11 +79,13 @@ export function Home() {
     return currentStep.map((question: any) => {
       switch (question.type) {
         case 0:
-          return <InputText label={question.label} key={question.id} />
+          return <TextField label={question.label} key={question.id} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)}  />
         case 1:
-          return <RadioGroupDemo label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} key={question.id} />
+          return <RadioGroupDemo label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} key={question.id} questionDescription={question.description} />
+        case 2:
+          return <RadioGroupDemo label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} key={question.id} showRadioWithChildren={true} questionDescription={question.description}/>
         case 3:
-          return <RadioGroupDemo label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} showDescription={true} key={question.id} />
+          return <RadioGroupDemo label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} showDescription={true} key={question.id} questionDescription={question.description} />
       }
     })
   }
@@ -78,7 +96,6 @@ export function Home() {
     if (indexAnswer > -1) answers[indexAnswer] = answer;
     else answers.push(answer);
 
-    console.log(answers)
     setAnswers(answers)
   }
 
@@ -89,30 +106,35 @@ export function Home() {
 
     //Valida se todas as questoes foram respondidas, incluindo o campo secundario se houver
     if(sections){
-      if (answers.findIndex(ans => [null, "", []].includes(ans.primaryValue)) >= 0) return // se estiver faltando questão sem resposta
+      if (answers.findIndex(ans => [null, "", []].includes(ans.primaryValue)) >= 0) return toast.error("Por favor preencha todos os campos"); // se estiver faltando questão sem resposta
 
       let questionsWithSecondaryValue = sections[currentSection].questions.filter((question: any) => [2,3].includes(question.type)).map((question: any) => ({id: question.id, firstRadioValue: question.radios[0].value}))
-      if (questionsWithSecondaryValue.findIndex((q:any) => answers.findIndex(ans => (ans.questionId == q.id && ans.primaryValue != q.firstRadioValue && !ans.secondaryValue))>= 0) >= 0) return
+      if (questionsWithSecondaryValue.findIndex((q:any) => answers.findIndex(ans => (ans.questionId == q.id && ans.primaryValue != q.firstRadioValue && !ans.secondaryValue))>= 0) >= 0) return toast.error("Por favor preencha todos os campos");
     }
 
     let lastQuestion = currentStep[currentStep.length - 1];
-    let indexRadioFilterSkipAll = lastQuestion.radios.findIndex((radio: any) => radio.action == 0)
-    let isQuestionFilter = indexRadioFilterSkipAll >= 0
+    let indexRadioFilter = lastQuestion.radios.findIndex((radio: any) => radio.action != null)
+    let isQuestionFilter = indexRadioFilter >= 0
 
+    let lastAnswer = isQuestionFilter ? answers.find(ans => ans.questionId == lastQuestion.id) : null
+    let isToSkipSection = isQuestionFilter ?  lastAnswer?.radioIndex == indexRadioFilter && lastQuestion.radios[indexRadioFilter].action == 0 &&  lastAnswer?.primaryValue == lastQuestion.radios[indexRadioFilter].value : nextStep.length == 0
+    let isToSkipTwoSections = isQuestionFilter && !isToSkipSection ?  lastAnswer?.radioIndex == indexRadioFilter && lastQuestion.radios[indexRadioFilter].action == 1 &&  lastAnswer?.primaryValue == lastQuestion.radios[indexRadioFilter].value : nextStep.length == 0
 
-    let isToSkipSection = isQuestionFilter ? answers.find(ans => ans.questionId == lastQuestion.id)?.primaryValue == lastQuestion.radios[indexRadioFilterSkipAll].value : false
-
+    
     if(lastSection){
       await useRegister('/form', {
         enrollment: "123123",
         email: "teste@gmail.com",
         answers})
-
         navigate("/agradecimentos");
     }
 
+    if(isToSkipTwoSections){
+      setCurrentSection(currentSection + 2)
+      setActualStep(null);
+    }
 
-    if (isToSkipSection || nextStep.length == 0) {
+    if (isToSkipSection) {
       setCurrentSection(currentSection + 1)
       setActualStep(null);
     }
@@ -131,8 +153,8 @@ export function Home() {
           {isFetching && <span>Carregando...</span>}
           {generateQuestions()}
 
-          <div className='flex flex-col items-end'>
-            {sections ? <Button value={lastSection ? 'Finalizar' : 'Continuar'} /> : "" }
+          <div className='flex flex-col  mx-1'>
+            {sections ? <Button value={lastSection && nextStep.length == 0 ? 'Finalizar' : 'Continuar'} /> : "" }
           </div>
         </form>
       </div>
