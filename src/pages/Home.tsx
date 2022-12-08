@@ -1,4 +1,4 @@
-import { useEffect, useState, FormEvent } from 'react';
+import { useEffect, useState, FormEvent, useContext, useRef } from 'react';
 import { Button } from '../components/Button';
 import { RadioGroupDemo } from '../components/radioGroup/RadioGroup';
 import { useFetch } from '../hooks/useFetch';
@@ -6,6 +6,7 @@ import { useRegister } from '../hooks/useRegister';
 import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import { TextField } from '../components/TextField';
+import { AnswerContext } from '../contexts/answer';
 
 interface Answer {
   questionId: string;
@@ -13,7 +14,6 @@ interface Answer {
   secondaryValue: string;
   radioIndex: string;
 }
-
 
 interface section {
   name: string,
@@ -26,9 +26,18 @@ export function Home() {
   const [currentSection, setCurrentSection] = useState<number>(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [actualStep, setActualStep] = useState<any>();
-
-
+  const { answer, setAnswer } = useContext(AnswerContext);
+  
   const navigate = useNavigate();
+
+  let count = useRef(0)
+
+  useEffect(() => {
+      if (count.current == 0 && Object.values(answer).findIndex((val:any) =>  ["", null, undefined].includes(val)) >= 0) {
+          navigate("/agradecimentos")
+      }
+
+  }, [answer]);
 
   useEffect(() => {
   }, [currentSection, actualStep]);
@@ -147,6 +156,7 @@ export function Home() {
 
   return (
     <>
+    {answer? 
       <div className="flex flex-col justify-center items-center bg-slate-50">
         <form className="min-h-[84vh] max-w-5xl mt-5 mb-5" onSubmit={passSectionOrStep}>
           <h1 className='text-bluePurple-500 text-2xl font-bold'>{sections ? sections[currentSection].name : ""}</h1>
@@ -159,6 +169,9 @@ export function Home() {
           </div>
         </form>
       </div>
+      :
+      setAnswer(undefined)
+      }
     </>
   )
 }
