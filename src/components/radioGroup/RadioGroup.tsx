@@ -24,7 +24,7 @@ export function RadioGroupDemo(props: RadioProps) {
     const [description, setdescription] = useState<string>("");
     const [lastRadioIndex, setLastRadioIndex] = useState<number>();
 
-    useEffect(() => { sendAnswer(radioValue, description) }, [radioValue, description]);
+    useEffect(() => { sendAnswer(radioValue, description) }, [radioValue, description, radioIndex]);
 
     function sendAnswer(radioValue: string, description: string) {
         props.onAnswer(
@@ -75,6 +75,7 @@ export function RadioGroupDemo(props: RadioProps) {
                         else if ((e.currentTarget.value).split('#')[0] == "0") {
                             setdescription("")
                         }
+                        console.log(Number((e.currentTarget.value).split('#')[1]))
                         setRadioValue((e.currentTarget.value).split('#')[0])
                         setRadioIndex(Number((e.currentTarget.value).split('#')[1]))
                         setLastRadioIndex(props.values.length -1)
