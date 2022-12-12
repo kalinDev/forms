@@ -75,7 +75,6 @@ export function RadioGroupDemo(props: RadioProps) {
                         else if ((e.currentTarget.value).split('#')[0] == "0") {
                             setdescription("")
                         }
-                        console.log(Number((e.currentTarget.value).split('#')[1]))
                         setRadioValue((e.currentTarget.value).split('#')[0])
                         setRadioIndex(Number((e.currentTarget.value).split('#')[1]))
                         setLastRadioIndex(props.values.length -1)

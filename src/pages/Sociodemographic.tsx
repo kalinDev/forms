@@ -77,7 +77,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="1"
+                                                        value="1º Ano"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -86,7 +86,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="2"
+                                                        value="2º Ano"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -95,7 +95,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="3"
+                                                        value="3º Ano"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -106,7 +106,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="4"
+                                                        value="4º Ano"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -115,7 +115,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="5"
+                                                        value="5º Ano"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -124,7 +124,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="6"
+                                                        value="6º Ano"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -144,7 +144,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="1"
+                                                        value="1º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -153,7 +153,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="2"
+                                                        value="2º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -162,7 +162,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="3"
+                                                        value="3º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -171,7 +171,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="4"
+                                                        value="4º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -180,7 +180,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="5"
+                                                        value="5º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -189,7 +189,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="6"
+                                                        value="6º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -200,7 +200,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="7"
+                                                        value="7º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -209,7 +209,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="8"
+                                                        value="8º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -218,7 +218,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="9"
+                                                        value="9º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -227,7 +227,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="10"
+                                                        value="10º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -236,7 +236,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="11"
+                                                        value="11º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -245,7 +245,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="12"
+                                                        value="12º Semestre"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>
@@ -256,7 +256,7 @@ export function Sociodemographic() {
                                                 <div className='flex items-center gap gap-4 mt-2'>
                                                     <RadioGroup.Item
                                                         className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                                                        value="0"
+                                                        value="Estou dessemestralizado(a)"
                                                     >
                                                         <RadioGroup.Indicator className="RadioGroupIndicator" />
                                                     </RadioGroup.Item>

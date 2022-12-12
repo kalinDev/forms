@@ -31,7 +31,7 @@ export function CheckAge() {
             <div>
                 <RadioGroupDemo2 label="Você é maior de idade (possui no mínimo 18 anos de idade completos)?"
                     values={["Sim, eu possuo 18 anos completos ou mais.", "Não, eu possuo menos de 18 anos de idade."]}
-                    onAnswer={(ans: any) => ans.primaryValue == 0 ? setCheckAge(true) : setCheckAge(false)}
+                    onAnswer={(ans: any) => ans.primaryValue == "Sim, eu possuo 18 anos completos ou mais." ? setCheckAge(true) : setCheckAge(false)}
                     questionId="5000"
                 />
 

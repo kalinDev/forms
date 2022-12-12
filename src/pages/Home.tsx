@@ -108,7 +108,9 @@ export function Home() {
       for (let index = 1; index < 19; index++) {
         obj["sec"+(index-1)] = answers.filter(ans => ans.type == 1 && ans.sectionId == index).reduce((a, {primaryValue}) => a + Number(primaryValue), 0).toString();
       }
-      let sectionsToShow = Object.values(answer).filter((value: any) => Number(value) >=2);
+
+      let sectionsToShow = Object.values(obj).map((value: any, index: any) => {if (Number(value) >=2){return index + 1}}).filter((ans: any) => ans);
+
       if (sectionsToShow.length <=0 ){
         setCurrentSection(19)
         return;
@@ -119,10 +121,11 @@ export function Home() {
       handleAnswers({sectionId:19, type:0, primaryValue: "", questionId:113, secondaryValue:"", radioIndex:""})
       isFirstSection19.current = false;
       }
+
       return <>
 
       <RadioGroupDemo2 label="Você me disse que teve alguns problemas durante a semana passada, qual desses problemas mais o incomodou?"
-      values={sections ? sections?.filter((sec :any) => sectionsToShow.includes(sec.id.toString())).map((sec:any) => sec.name): [] }
+      values={sections ? sections?.filter((sec :any) => sectionsToShow.includes(sec.id)).map((sec:any) => sec.name): [] }
       onAnswer={(ans: any) => handleAnswers({...ans, questionId:112, sectionId:19, type:1})}
       questionId="112"
       />
@@ -163,7 +166,6 @@ export function Home() {
     if (indexAnswer > -1) answers[indexAnswer] = answer;
     else answers.push(answer);
 
-    console.log(answers)
     setAnswers(answers)
   }
 

@@ -35,7 +35,7 @@ export function RadioGroupDemo2(props: RadioProps) {
             <div className='flex items-center gap gap-4' key={index + props.questionId}>
                 <RadioGroup.Item
                     className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
-                    value={String(index)}
+                    value={item}
                     id={String(index)}
                     onClick={e => setRadioValue(e.currentTarget.value)}
                 >
