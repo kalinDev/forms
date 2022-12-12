@@ -3,7 +3,7 @@ import { useState, FormEvent } from 'react';
 import { InputText } from '../components/InputText';
 import { Button } from '../components/Button';
 
-import axios from 'axios';
+import { api } from "../lib/axios";
 import '../styles/main.css';
 
 export function DownloadExcel() {
@@ -19,7 +19,7 @@ export function DownloadExcel() {
       return;
     }
     try {
-      await axios.get(` http://localhost:5294/formulario-excel/${user}/${password}`, {
+      await api.get(`form-excel/${user}/${password}`, {
         responseType: 'blob'
       })
         .then((result) => {
@@ -45,20 +45,30 @@ export function DownloadExcel() {
   }
 
   return (
-    <div className='bg-slate-50 min-h-screen mx-auto flex flex-col justify-center items-center'>
+    <div className='bg-slate-100 min-h-[83vh] mx-auto flex flex-col justify-center items-center'>
 
-      <h1 className='text-bluePurple-500 text-4xl font-bold'>ENTREVISTA CLÍNICA</h1>
-      <h1 className='text-bluePurple-500 text-4xl font-bold'>ESTRUTURADA</h1>
+      <h1 className='text-bluePurple-500 text-4xl text-center font-bold'>
+        ENTREVISTA CLÍNICA
+      </h1>
+      <h1 className='text-bluePurple-500 text-4xl text-center font-bold'>
+        ESTRUTURADA
+      </h1>
 
-      <form onSubmit={handleForm} className='flex flex-col'>
-        <InputText
-          label='Usuário'
+      <form onSubmit={handleForm} className='flex flex-col w-1/5 max-[1101px]:w-auto mt-5'>
+        <label className='text-zinc-800 font-semibold'>Usuário:</label>
+        <input
+          className='p-3 mt-2 border-solid border-2 border-gray-300
+          hover:border-gray-500 focus:border-gray-500 rounded-lg'
+          type="text"
           placeholder='Informe seu usuário'
           value={user}
-          onChange={(e) => setUser(e.target.value)} />
+          onChange={(e) => setUser(e.target.value)}
+        />
 
-        <InputText
-          label='Senha'
+        <label className='text-zinc-800 font-semibold mt-3'>Senha:</label>
+        <input
+          className='p-3 mt-2 border-solid border-2 border-gray-300
+          hover:border-gray-500 focus:border-gray-500 rounded-lg'
           type="password"
           placeholder='Informe sua senha'
           value={password}

@@ -6,17 +6,14 @@ interface LabelProps extends LabelHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-export function LabelForm(props: LabelProps) {
+export function LabelForm({ label }: LabelProps) {
   return (
-    <div
-      className='flex flex-col py-2 text-zinc-800'
-    >
+    <div className='text-zinc-800 font-semibold'>
 
-      <Label.Root htmlFor={props.label}>
-        {props.label}
+      <Label.Root htmlFor={label}>
+        {label}
       </Label.Root>
 
     </div>
   )
 };
-
