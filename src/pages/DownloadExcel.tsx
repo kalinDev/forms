@@ -20,6 +20,7 @@ export function DownloadExcel() {
     }
     try {
       await api.get(`form-excel/${user}/${password}`, {
+        headers: {"Content-Security-Policy": "upgrade-insecure-requests"},
         responseType: 'blob'
       })
         .then((result) => {
