@@ -19,7 +19,7 @@ export function InputText(props: InputProps) {
         placeholder:text-gray-400
         hover:border-gray-800
         focus:text-gray-800
-        focus:border-gray-50  focus:outline-none min-w-full
+        focus:border-gray-50  focus:outline-none max-[540px]:min-w-full min-w-[480px]
         focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 border'
 
         value={props.name}

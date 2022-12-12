@@ -26,6 +26,6 @@ export function TextField(props: TextProps) {
     
 
     return (
-        <InputText label={props.label} key={props.questionId} onChange={(e:any) => setdescription(e.target.value)}  />
+        <InputText label={props.label} key={props.questionId} onChange={(e:any) => setdescription(e.target.value)} type={props.type ?? "text"} min={props.min ?? "" }  max={props.max ?? "" }/>
     )
 };

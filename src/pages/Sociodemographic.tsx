@@ -5,6 +5,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AnswerContext } from "../contexts/answer";
 import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
+import * as RadioGroup from '@radix-ui/react-radio-group';
+import { LabelForm } from "../components/Label";
 
 export function Sociodemographic() {
 
@@ -20,17 +22,18 @@ export function Sociodemographic() {
         }
 
         firstLoad.current ?
-            firstLoad.current = false : navigate("/agradecimentos")
+            firstLoad.current = false : navigate("/") //agradecimentos
 
     }, [checkAge]);
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        if (Object.values(answer).findIndex((val:any) =>  ["", null, undefined].includes(val)) >= 0){
+        if (Object.values(answer).findIndex((val: any) => ["", null, undefined].includes(val)) >= 0) {
             return toast.error("Por favor preencha todos os campos");
         }
         else {
+            window.scrollTo({ top: 0, behavior: 'smooth' })
             navigate("/questoes")
         }
     }
@@ -44,15 +47,15 @@ export function Sociodemographic() {
 
                         <h2 className="border-b-2 pb-2 text-center text-2xl">Variáveis Sociodemográficas</h2>
 
-                        <form onSubmit={handleSubmit }>
+                        <form onSubmit={handleSubmit}>
 
                             <div className="flex flex-col items-start">
 
-                                <TextField questionId="5051" label="Número de matrícula UNEB" placeholder="Seu número de matricula, utilizando apenas números" onAnswer={(ans: any) => answer["matricula"] = ans.primaryValue} />
+                                <TextField questionId="5051" label="Número de matrícula UNEB" placeholder="Seu número de matricula, utilizando apenas números" onAnswer={(ans: any) => answer["matricula"] = ans.primaryValue} type="number" />
 
-                                <TextField questionId="5052" label="Email" placeholder="Preencha com seu e-mail principal" onAnswer={(ans: any) => answer["email"] = ans.primaryValue} />
+                                <TextField questionId="5052" label="Email" placeholder="Preencha com seu e-mail principal" onAnswer={(ans: any) => answer["email"] = ans.primaryValue} type="email" />
 
-                                <TextField questionId="5053" label="Idade" placeholder="Sua idade" onAnswer={(ans: any) => answer["idade"] = ans.primaryValue} />
+                                <TextField questionId="5053" label="Idade" placeholder="Sua idade" onAnswer={(ans: any) => answer["idade"] = ans.primaryValue} type="number" min={18} max={110} />
 
                                 <RadioGroupDemo2 label="Sexo:"
                                     values={["Masculino", "Feminino"]}
@@ -66,103 +69,204 @@ export function Sociodemographic() {
                                     questionId="5002"
                                 />
 
-
-                                <div onChange={(radio: any) => answer["anoCurso"] = (radio.target.value)} className="bg-white rounded-md border-2 mt-4 w-full p-3">
-                                    <span className="ml-8 text-zinc-800 font-semibold">Ano do curso de graduação:</span>
-                                    <div className="flex gap-20 my-4">
-                                        <div className="ml-8">
+                                <div className="mt-4 pl-8 pr-6 py-8 w-full bg-white rounded-md border-2 ">
+                                    <LabelForm label="Ano do curso de graduação" />
+                                    <RadioGroup.Root onChange={(radio: any) => answer["anoCurso"] = (radio.target.value)} className="flex flex-col gap gap-2.5 " defaultValue="default" aria-label="View density">
+                                        <div className='flex max-[540px]:flex-col min-[541px]:gap-20 my-4'>
                                             <div>
-                                                <input type="radio" id="1ano" name="ano" value="1" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="1ano">1º Ano</label>
+                                                <div className='flex items-center gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="1"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold" >1º Ano</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="2"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">2º Ano</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="3"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold" >3º Ano</label>
+                                                </div>
                                             </div>
                                             <div>
-                                                <input type="radio" id="2ano" name="ano" value="2" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="2ano">2º Ano</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="3ano" name="ano" value="3" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="3ano">3º Ano</label>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="4"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold" >4º Ano</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="5"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">5º Ano</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="6"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">6º Ano</label>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div>
-                                                <input type="radio" id="4ano" name="ano" value="4" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="4ano">4º Ano</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="5ano" name="ano" value="5" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="5ano">5º Ano</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="6ano" name="ano" value="6" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="6ano">6º Ano</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </RadioGroup.Root>
                                 </div>
 
 
-                                <div onChange={(radio: any) => answer["semestre"] = (radio.target.value)}
-                                    className="bg-white rounded-md border-2 mt-4 w-full p-3">
-                                    <span className="ml-8 text-zinc-800 font-semibold">Semestre atual da graduação</span>
-                                    <div className="flex max-[500px]:flex-col min-[501px]:gap-20 my-4">
-                                        <div className="ml-8">
+                                <div className="mt-4 pl-8 pr-6 py-8 w-full bg-white rounded-md border-2 ">
+                                    <LabelForm label="Semestre atual da graduação" />
+                                    <RadioGroup.Root onChange={(radio: any) => answer["semestre"] = (radio.target.value)} className="flex flex-col gap gap-2.5 " defaultValue="default" aria-label="View density">
+                                        <div className='flex max-[540px]:flex-col min-[541px]:gap-20 my-4'>
                                             <div>
-                                                <input type="radio" id="1semestre" name="periodo" value="1" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="1semestre">1º semestre</label>
+                                                <div className='flex items-center gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="1"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">1º Semestre</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="2"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">2º Semestre</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="3"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">3º Semestre</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="4"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">4º Semestre</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="5"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">5º Semestre</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="6"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">6º Semestre</label>
+                                                </div>
                                             </div>
                                             <div>
-                                                <input type="radio" id="2semestre" name="periodo" value="2" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="2semestre">2º semestre</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="3semestre" name="periodo" value="3" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="3semestre">3º semestre</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="4semestre" name="periodo" value="4" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="4semestre">4º semestre</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="5semestre" name="periodo" value="5" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="5semestre">5º semestre</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="6semestre" name="periodo" value="6" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="6semestre">6º semestre</label>
+                                                <div className='flex items-center gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="7"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">7º Semestre</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="8"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">8º Semestre</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="9"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">9º Semestre</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="10"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">10º Semestre</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="11"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">11º Semestre</label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="12"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">
+                                                        12º Semestre
+                                                    </label>
+                                                </div>
+                                                <div className='flex items-center gap gap-4 mt-2'>
+                                                    <RadioGroup.Item
+                                                        className="bg-slate-100 w-5 h-5 rounded-xl shadow-md shadow-slate-800 hover:bg-slate-200"
+                                                        value="0"
+                                                    >
+                                                        <RadioGroup.Indicator className="RadioGroupIndicator" />
+                                                    </RadioGroup.Item>
+                                                    <label className="ml-2 text-zinc-800 font-semibold">
+                                                        Estou dessemestralizado(a)
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="max-[500px]:ml-8">
-                                            <div>
-                                                <input type="radio" id="7semestre" name="periodo" value="7" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="7semestre">7º semestre</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="8semestre" name="periodo" value="8" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="8semestre">8º semestre</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="9semestre" name="periodo" value="9" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="9semestre">9º semestre</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="10semestre" name="periodo" value="10" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="10semestre">10º semestre</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="11semestre" name="periodo" value="11" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="11semestre">11º semestre</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="12semestre" name="periodo" value="12" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="12semestre">12º semestre</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="semestre" name="periodo" value="0" />
-                                                <label className="ml-2 text-zinc-800 font-semibold" htmlFor="semestre">Estou dessemestralizado(a)</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </RadioGroup.Root>
                                 </div>
 
                                 <RadioGroupDemo2 label="Renda familiar mensal média"
@@ -210,7 +314,7 @@ export function Sociodemographic() {
 
                             </div>
 
-                            <div className="flex flex-col mx-1">
+                            <div className="flex flex-col mx-1 mb-4">
                                 <Button value="Continuar" />
                             </div>
 

@@ -41,16 +41,18 @@ export function RadioGroupDemo2(props: RadioProps) {
                 >
                     <RadioGroup.Indicator className="RadioGroupIndicator" />
                 </RadioGroup.Item>
-                <LabelForm label={item} htmlFor={String(index)} />
+                <LabelForm label={item} htmlFor={String(
+                    
+                )} />
             </div>
         )
     })
 
     return (
-        <div className='mt-4 pl-8 pr-6 py-8 w-full bg-white rounded-md border-2 '>
+        <div className='mt-4 pl-8 pr-6 py-8 w-full bg-white rounded-md border-2'>
             <LabelForm label={props.label} />
-            <RadioGroup.Root className="flex flex-col gap gap-2.5 mt-3" defaultValue="default" aria-label="View density">
-                <div className='flex flex-col gap gap-2 '>
+            <RadioGroup.Root className="flex flex-col gap-2.5 mt-3" defaultValue="default" aria-label="View density">
+                <div className='flex flex-col gap-2'>
                     {radios}
                 </div>
             </RadioGroup.Root>

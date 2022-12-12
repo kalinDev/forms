@@ -7,17 +7,23 @@ import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import { TextField } from '../components/TextField';
 import { AnswerContext } from '../contexts/answer';
+import { RadioGroupDemo2 } from '../components/radioGroup2/RadioGroup2';
+import ProgressDemo from '../components/progress/Progress';
+import { LabelForm } from '../components/Label';
 
 interface Answer {
-  questionId: string;
+  questionId: number;
   primaryValue: string;
   secondaryValue: string;
   radioIndex: string;
+  type: number;
+  sectionId?: number; 
 }
 
 interface section {
   name: string,
-  questions: any
+  questions: any,
+  id: number
 }
 
 export function Home() {
@@ -29,6 +35,9 @@ export function Home() {
   const { answer, setAnswer } = useContext(AnswerContext);
   
   const navigate = useNavigate();
+
+  var isFinished = useRef(false)
+  var isFirstSection19 = useRef(true)
 
   let count = useRef(0)
 
@@ -63,7 +72,7 @@ export function Home() {
     let questions = actualStep?.length > 0 ? actualStep : []
     if (questions.length == 0) {
       if (sections[currentSection].name == "PÂNICO") {
-        if (answers.findIndex(ans => ["75", "69"].includes(ans.questionId)) > 0) {
+        if (answers.findIndex(ans => [75, 69].includes(ans.questionId)) <= 0) {
           setCurrentSection(currentSection + 1)
         }
       }
@@ -83,18 +92,67 @@ export function Home() {
 
   }
 
+  function convertDate(date:string){
+    if (!date) return date;
+    const [year, month, day] = date.split('-');
+    return [month, day, year].join('/');
+  }
+
+
   function generateQuestions() {
     if (!currentStep) return;
+
+    if(currentSection == 18){
+      let obj = {} as any;
+
+      for (let index = 1; index < 19; index++) {
+        obj["sec"+(index-1)] = answers.filter(ans => ans.type == 1 && ans.sectionId == index).reduce((a, {primaryValue}) => a + Number(primaryValue), 0).toString();
+      }
+      let sectionsToShow = Object.values(answer).filter((value: any) => Number(value) >=2);
+      if (sectionsToShow.length <=0 ){
+        setCurrentSection(19)
+        return;
+      }
+
+      if(isFirstSection19.current){
+      handleAnswers({primaryValue:"", secondaryValue:"", radioIndex:"", questionId:112, sectionId:19, type:1})
+      handleAnswers({sectionId:19, type:0, primaryValue: "", questionId:113, secondaryValue:"", radioIndex:""})
+      isFirstSection19.current = false;
+      }
+      return <>
+
+      <RadioGroupDemo2 label="Você me disse que teve alguns problemas durante a semana passada, qual desses problemas mais o incomodou?"
+      values={sections ? sections?.filter((sec :any) => sectionsToShow.includes(sec.id.toString())).map((sec:any) => sec.name): [] }
+      onAnswer={(ans: any) => handleAnswers({...ans, questionId:112, sectionId:19, type:1})}
+      questionId="112"
+      />
+      <div className="mt-4 pl-8 pr-6 py-8 w-full bg-white rounded-md border-2">
+      <LabelForm label="Quando este problema começou? " />
+          <input className="bg-slate-50 py-3 px-4 rounded text-sm mt-1
+          border-b-slate-500 text-gray-700
+          placeholder:text-gray-400
+          hover:border-gray-800
+          focus:text-gray-800
+          focus:border-gray-50 "
+          onChange={(e: any) => handleAnswers({sectionId:19, type:0, primaryValue: convertDate(e.target.value), questionId:113, secondaryValue:"", radioIndex:""})} type="date"></input>
+      </div>
+      </>
+      
+    }
+
+
     return currentStep.map((question: any) => {
       switch (question.type) {
         case 0:
           return <TextField label={question.label} key={question.id} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} />
         case 1:
-          return <RadioGroupDemo label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} key={question.id} questionDescription={question.description} />
+          return <RadioGroupDemo sectionId={sections != null ? sections[currentSection].id : undefined} questionType={question.type} label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} key={question.id} questionDescription={question.description} />
         case 2:
-          return <RadioGroupDemo label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} key={question.id} showRadioWithChildren={true} questionDescription={question.description} />
+          return <RadioGroupDemo sectionId={sections != null ? sections[currentSection].id : undefined} questionType={question.type} label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} key={question.id} showRadioWithChildren={true} questionDescription={question.description} />
         case 3:
-          return <RadioGroupDemo label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} showDescription={true} key={question.id} questionDescription={question.description} />
+          return <RadioGroupDemo sectionId={sections != null ? sections[currentSection].id : undefined} questionType={question.type} label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} showDescription={true} key={question.id} questionDescription={question.description} />
+        case 4: 
+          return <RadioGroupDemo sectionId={sections != null ? sections[currentSection].id : undefined} questionType={question.type} label={question.label} values={question.radios} questionId={question.id} onAnswer={(answer: Answer) => handleAnswers(answer)} showOtherType={true} key={question.id} questionDescription={question.description} />
       }
     })
   }
@@ -105,13 +163,18 @@ export function Home() {
     if (indexAnswer > -1) answers[indexAnswer] = answer;
     else answers.push(answer);
 
+    console.log(answers)
     setAnswers(answers)
   }
 
+  function generateProgress(){
+    return <ProgressDemo value={currentSection}/>
+  }
 
   async function passSectionOrStep(event: FormEvent) {
     event.preventDefault();
 
+    if(isFinished.current) return;
 
     //Valida se todas as questoes foram respondidas, incluindo o campo secundario se houver
     if (sections) {
@@ -119,6 +182,9 @@ export function Home() {
 
       let questionsWithSecondaryValue = sections[currentSection].questions.filter((question: any) => [2, 3].includes(question.type)).map((question: any) => ({ id: question.id, firstRadioValue: question.radios[0].value }))
       if (questionsWithSecondaryValue.findIndex((q: any) => answers.findIndex(ans => (ans.questionId == q.id && ans.primaryValue != q.firstRadioValue && !ans.secondaryValue)) >= 0) >= 0) return toast.error("Por favor preencha todos os campos");
+      
+      let questionsWithSecondaryValue2 = sections[currentSection].questions.filter((question: any) => 4 == question.type).map((question: any) => ({ id: question.id, lastRadioValue: question.radios[question.radios.length -1].value }))
+      if (questionsWithSecondaryValue2.findIndex((q: any) => answers.findIndex(ans => (ans.questionId == q.id && ans.primaryValue == q.lastRadioValue && !ans.secondaryValue)) >= 0) >= 0) return toast.error("Por favor preencha todos os campos");
     }
 
     let lastQuestion = currentStep[currentStep.length - 1];
@@ -127,26 +193,33 @@ export function Home() {
 
     let lastAnswer = isQuestionFilter ? answers.find(ans => ans.questionId == lastQuestion.id) : null
     let isToSkipSection = isQuestionFilter ? lastAnswer?.radioIndex == indexRadioFilter && lastQuestion.radios[indexRadioFilter].action == 0 && lastAnswer?.primaryValue == lastQuestion.radios[indexRadioFilter].value : nextStep.length == 0
-    let isToSkipTwoSections = isQuestionFilter && !isToSkipSection ? lastAnswer?.radioIndex == indexRadioFilter && lastQuestion.radios[indexRadioFilter].action == 1 && lastAnswer?.primaryValue == lastQuestion.radios[indexRadioFilter].value : nextStep.length == 0
+    let isToSkipTwoSections = isQuestionFilter && !isToSkipSection ? lastAnswer?.radioIndex == indexRadioFilter && lastQuestion.radios[indexRadioFilter].action == 1 && lastAnswer?.primaryValue == lastQuestion.radios[indexRadioFilter].value : false 
 
 
     if (lastSection) {
+      
+      isFinished.current = true;
+
+      let obj = {} as any;
+
+      for (let index = 1; index < 19; index++) {
+        obj["sec"+(index-1)] = answers.filter(ans => ans.type == 1 && ans.sectionId == index).reduce((a, {primaryValue}) => a + Number(primaryValue), 0).toString()
+      }
+
       await useRegister('/form', {
-        enrollment: "123123",
-        email: "teste@gmail.com",
-        answers
+        ...answer,
+        answers,
+        ...obj
       })
       navigate("/agradecimentos");
     }
 
     if (isToSkipTwoSections) {
       setCurrentSection(currentSection + 2)
-      setActualStep(null);
     }
-
-    if (isToSkipSection) {
+    else if (isToSkipSection) {
       setCurrentSection(currentSection + 1)
-      setActualStep(null);
+      setActualStep(null)
     }
     else if (!isToSkipSection) {
       setActualStep(nextStep)
@@ -158,8 +231,11 @@ export function Home() {
     <>
     {answer? 
       <div className="flex flex-col justify-center items-center bg-slate-50">
-        <form className="min-h-[84vh] max-w-5xl mt-5 mb-5" onSubmit={passSectionOrStep}>
-          <h1 className='text-bluePurple-500 text-2xl font-bold'>{sections ? sections[currentSection].name : ""}</h1>
+        <form className="min-h-[84vh] max-w-4xl my-5" onSubmit={passSectionOrStep}>
+          <h1 className='text-bluePurple-500 text-2xl font-bold ml-2'>{sections ? sections[currentSection].name : ""}</h1>
+          <div className='my-3 ml-2'>
+            {sections ? generateProgress(): ""}
+          </div>
           <hr />
           {isFetching && <span>Carregando...</span>}
           {generateQuestions()}
