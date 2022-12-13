@@ -14,7 +14,7 @@ export function InputText(props: InputProps) {
       }
       <input
         {...props}
-        className='bg-slate-50 py-3 px-4 rounded text-sm mt-1
+        className='bg-slate-100 py-3 px-4 rounded text-sm mt-1
         border-b-slate-500 text-gray-700
         placeholder:text-gray-400
         hover:border-gray-800

@@ -131,7 +131,7 @@ export function Home() {
       />
       <div className="mt-4 pl-8 pr-6 py-8 w-full bg-white rounded-md border-2">
       <LabelForm label="Quando este problema começou? " />
-          <input className="bg-slate-50 py-3 px-4 rounded text-sm mt-1
+          <input className="bg-slate-100 py-3 px-4 rounded text-sm mt-1
           border-b-slate-500 text-gray-700
           placeholder:text-gray-400
           hover:border-gray-800
@@ -232,7 +232,7 @@ export function Home() {
   return (
     <>
     {answer? 
-      <div className="flex flex-col justify-center items-center bg-slate-50">
+      <div className="flex flex-col justify-center items-center bg-slate-100">
         <form className="min-h-[84vh] max-w-4xl my-5" onSubmit={passSectionOrStep}>
           <h1 className='text-bluePurple-500 text-2xl font-bold ml-2'>{sections ? sections[currentSection].name : ""}</h1>
           <div className='my-3 ml-2'>
